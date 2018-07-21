@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button, ScrollView } from 'react-native';
+import MainComponent from './MainComponent'
+import { Container, Content } from "native-base";
 
 export default class MainList extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,13 +19,18 @@ export default class MainList extends React.Component {
     };
   };
 
+  clickAction=(param) => this.props.navigation.navigate('Details', {
+    itemId: 86,
+    otherParam: typeof param === 'string' ? param : 'anything you want here'
+  })
+
   render() {
-    let test = []
-    for (let index = 0; index < 100; index++) {
-      test.push(index);  
-    }
     return (
-      <View style={styles.contentContainer}>
+      <Container style={styles.container}>
+        <Content padder>
+          <MainComponent clickAction={()=>this.clickAction('HaH')}/>
+          <MainComponent clickAction={this.clickAction}/>
+        </Content>
         <Text>Home Screen</Text>
         <Button
           title="Go to Details"
@@ -32,32 +39,26 @@ export default class MainList extends React.Component {
             otherParam: 'anything you want here'
           })}
         />
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          {
-            test.map((value, index, array) => {
-              return <View key={{value}} style={styles.scrollComponent}>
-                <Text>value</Text>
-              </View>
-            })
-          }
-        </ScrollView>
-      </View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    contentContainer: {
-      borderColor: 'red',
-      borderWidth: 2,
-      flex: 1, 
-      alignItems: 'center'
-    },
-    scrollView: {
-      
-    },
-    scrollComponent: {
-      width: '100%'
-    }
+  contentContainer: {
+    borderColor: 'red',
+    borderWidth: 2,
+    flex: 1,
+    alignItems: 'center'
+  },
+  scrollView: {
+
+  },
+  scrollComponent: {
+    width: '100%'
+  },
+  container: {
+    backgroundColor: "#FFF"
+  },
 
 })

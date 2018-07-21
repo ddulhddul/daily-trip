@@ -1,6 +1,7 @@
 ## 2018.07.21 
 - 디자인 고민
     - [스케치](https://www.sketchapp.com/) : 윈도우 버전을 지원하지 않는다...
+    - 기존 찾은것 대로 'NativeBase-KitchenSink' 를 참조해서 만들기 시작.
 
 ## 2018.07.15 
 - restart with CRNA & [react-navigation](https://reactnavigation.org/docs/en/getting-started.html)
