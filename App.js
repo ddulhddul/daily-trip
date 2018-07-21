@@ -1,39 +1,7 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-
-class HomeScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
-
-    return {
-      headerLeft: (
-        <Button
-          onPress={() => navigation.navigate('MyModal')}
-          title="Info"
-          color="#fff"
-        />
-      ),
-      title: 'Title !!'
-      /* the rest of this config is unchanged */
-    };
-  };
-
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details', {
-            itemId: 86,
-            otherParam: 'anything you want here'
-          })}
-        />
-      </View>
-    );
-  }
-}
+import MainList from './src/components/main/MainList'
 
 class DetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -80,10 +48,10 @@ class DetailsScreen extends React.Component {
 }
 
  const MainStack = createStackNavigator({
-    Home: HomeScreen,
+    MainList: MainList,
     Details: DetailsScreen
   },{
-    initialRouteName: 'Home',
+    initialRouteName: 'MainList',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e'
