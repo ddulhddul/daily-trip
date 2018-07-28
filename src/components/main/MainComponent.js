@@ -24,8 +24,6 @@ class MainComponent extends Component {
         <TouchableOpacity onPress={this.props.clickAction}>
           <CardItem>
             <Left>
-              {/* <Thumbnail source={logo} /> */}
-              <Thumbnail />
               <Body>
                 <Text>NativeBase</Text>
                 <Text note>GeekyAnts</Text>
