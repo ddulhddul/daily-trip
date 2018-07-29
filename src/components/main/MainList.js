@@ -14,7 +14,7 @@ class MainList extends React.Component {
     return {
       headerLeft: (
         <Button
-          onPress={() => navigation.navigate('MyModal')}
+          onPress={() => navigation.navigate('AddMainComponent')}
           title="Info"
           color="#fff"
         />
