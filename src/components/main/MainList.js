@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import MainComponent from './MainComponent'
-import { Container, Content } from "native-base";
+import { Container, Content, Button as NativeButton, Fab, Icon } from "native-base";
 
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -23,6 +23,13 @@ class MainList extends React.Component {
       /* the rest of this config is unchanged */
     };
   };
+
+  constructor(props){
+    super()
+    this.state = {
+      active: false
+    }
+  }
 
   componentDidMount=()=>{
     this.props.find({})
@@ -48,19 +55,44 @@ class MainList extends React.Component {
             : <Text>no data found</Text>
           }
         </Content>
-        <Button
-          title="Insert Item"
+        <Fab
+          style={{ backgroundColor: '#5067FF' }}
+          position="bottomRight"
           onPress={()=>{
             this.props.insert({
               title: 'title test',
               contents: 'contents test'
             })
-          }}
-        />
-        <Button
-          title="Remove Items"
-          onPress={()=>this.props.remove({})}
-        />
+          }}>
+          <Icon name="md-add" />
+        </Fab>
+        {/* <Fab
+          active={this.state.active}
+          direction="up"
+          containerStyle={{ }}
+          style={{ backgroundColor: '#5067FF' }}
+          position="bottomRight"
+          onPress={()=>{
+              this.props.insert({
+                title: 'title test',
+                contents: 'contents test'
+              })
+          }}>
+          <Icon name="md-add" />
+          <NativeButton 
+            style={{ backgroundColor: '#34A34F' }}
+            >
+            <Icon name="md-add" />
+          </NativeButton>
+          <NativeButton 
+            style={{ backgroundColor: '#3B5998' }} 
+            onPress={()=>this.props.remove({})}>
+            <Icon name="md-remove" />
+          </NativeButton>
+          <NativeButton disabled style={{ backgroundColor: '#DD5144' }}>
+            <Icon name="mail" />
+          </NativeButton>
+        </Fab> */}
       </Container>
     );
   }
