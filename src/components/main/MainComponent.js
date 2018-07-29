@@ -25,8 +25,8 @@ class MainComponent extends Component {
           <CardItem>
             <Left>
               <Body>
-                <Text>NativeBase</Text>
-                <Text note>GeekyAnts</Text>
+                <Text>{this.props.title}</Text>
+                <Text note>{this.props.contents}</Text>
               </Body>
             </Left>
           </CardItem>

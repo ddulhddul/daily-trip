@@ -6,22 +6,24 @@ import MainList from './components/main/MainList'
 class DetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title : navigation.getParam('itemId', 'Item Id') + '\'s detail'
+      title : navigation.getParam('title', 'Item Id') + '\'s detail'
     }
   }
   render() {
     const {navigation} = this.props;
-    const itemId = navigation.getParam('itemId', 'NO-ID')
-    const otherParam = navigation.getParam('otherParam', 'default value...')
+    const _id = navigation.getParam('_id', 'NO-ID')
+    const title = navigation.getParam('title', 'default value...')
+    const contents = navigation.getParam('contents', 'default value...')
     const params = this.props.navigation.state.params || {}
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Details Screen</Text>
-        <Text>{ params.itemId }</Text>
-        <Text>{ params.otherParam }</Text>
+        <Text>_id : { params._id }</Text>
+        <Text>title : { params.title }</Text>
+        <Text>contents : { params.contents }</Text>
         <Button
           title="item id ++"
-          onPress={() => navigation.setParams({itemId: params.itemId+1})}
+          onPress={() => navigation.setParams({_id: params._id+1})}
         />
         <Button
           title="Go to Details... again"

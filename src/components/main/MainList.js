@@ -3,7 +3,12 @@ import { StyleSheet, View, Text, Button, ScrollView } from 'react-native';
 import MainComponent from './MainComponent'
 import { Container, Content } from "native-base";
 
-export default class MainList extends React.Component {
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+
+import * as Actions from '../../actions'; //Import your actions
+
+class MainList extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
     return {
@@ -19,25 +24,42 @@ export default class MainList extends React.Component {
     };
   };
 
-  clickAction=(param) => this.props.navigation.navigate('Details', {
-    itemId: 86,
-    otherParam: typeof param === 'string' ? param : 'anything you want here'
-  })
+  componentDidMount=()=>{
+    this.props.find({})
+  }
 
   render() {
+    let {mainList} = this.props
     return (
       <Container style={styles.container}>
         <Content padder>
-          <MainComponent clickAction={()=>this.clickAction('HaH')}/>
-          <MainComponent clickAction={this.clickAction}/>
+          {
+            (mainList && mainList.length) 
+            ? mainList.map((obj)=>{
+              return <MainComponent 
+                key={obj._id} 
+                clickAction={()=>{
+                  this.props.navigation.navigate('Details', obj)
+                }}
+                title={obj.title}
+                contents={obj.contents}
+              />
+            })
+            : <Text>no data found</Text>
+          }
         </Content>
-        <Text>Home Screen</Text>
         <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details', {
-            itemId: 86,
-            otherParam: 'anything you want here'
-          })}
+          title="Insert Item"
+          onPress={()=>{
+            this.props.insert({
+              title: 'title test',
+              contents: 'contents test'
+            })
+          }}
+        />
+        <Button
+          title="Remove Items"
+          onPress={()=>this.props.remove({})}
         />
       </Container>
     );
@@ -62,3 +84,23 @@ const styles = StyleSheet.create({
   },
 
 })
+
+
+// The function takes data from the app current state,
+// and insert/links it into the props of our component.
+// This function makes Redux know that this component needs to be passed a piece of the state
+function mapStateToProps(state, props) {
+  return {
+      mainList: state.dataReducer.mainList
+  }
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)(MainList);

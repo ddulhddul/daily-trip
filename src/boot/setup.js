@@ -23,15 +23,11 @@ class Setup extends Component {
   }
   componentWillMount() {
     let curThis = this
-    let fontsReady = curThis.loadFonts();
-    if(fontsReady){
-      let db = new Datastore({ filename: 'asyncStorageKey' });
-      db.loadDatabase(function (err) {    // Callback is optional
-        curThis.setState({ isReady: true });
-        curThis.props.getData(); //call our action
-        console.log('db loaded....', this.props && this.props.data)
-      });
-    }
+    curThis.loadFonts().then((result)=>{
+      curThis.setState({ isReady: true });
+      curThis.props.dbLoad(); //call our action
+      console.log('db loaded....', this.props && this.props.data)
+    })
   }
   async loadFonts() {
     await Expo.Font.loadAsync({
@@ -60,7 +56,6 @@ class Setup extends Component {
 // This function makes Redux know that this component needs to be passed a piece of the state
 function mapStateToProps(state, props) {
   return {
-      loading: state.dataReducer.loading,
       data: state.dataReducer.data
   }
 }

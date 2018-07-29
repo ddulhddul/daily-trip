@@ -1,3 +1,7 @@
+## 2018.07.29
+- Redux
+    - [Example: Reddit API](https://redux.js.org/advanced/exampleredditapi)
+
 ## 2018.07.28
 - DB
     - [Mongo DB](https://github.com/antoniopresto/react-native-local-mongodb)
