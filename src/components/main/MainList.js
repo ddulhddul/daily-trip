@@ -41,8 +41,11 @@ class MainList extends React.Component {
       <Container style={styles.container}>
         <Content padder>
           {
-            (mainList && mainList.length) 
-            ? mainList.map((obj)=>{
+            !mainList
+            ? <Text>...loading</Text>
+            : !mainList.length 
+            ? <Text>no data found</Text>
+            : mainList.map((obj)=>{
               return <MainComponent 
                 key={obj._id} 
                 clickAction={()=>{
@@ -53,7 +56,7 @@ class MainList extends React.Component {
                     'Delete',
                     '삭제하시겠습니까?',
                     [
-                      {text: 'Cancel', style: 'cancel'},
+                      {text: 'Cancel'},
                       {text: 'OK', onPress: () => this.props.remove({})},
                     ],
                     { cancelable: true }
@@ -63,7 +66,6 @@ class MainList extends React.Component {
                 contents={obj.contents}
               />
             })
-            : <Text>no data found</Text>
           }
         </Content>
         <Fab
