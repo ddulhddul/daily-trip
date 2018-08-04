@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, Alert, Text, Button } from 'react-native';
 import MainComponent from './MainComponent'
 import { Container, Content, Button as NativeButton, Fab, Icon } from "native-base";
 
@@ -48,6 +48,17 @@ class MainList extends React.Component {
                 clickAction={()=>{
                   this.props.navigation.navigate('Details', obj)
                 }}
+                longClickAction={()=>{
+                  Alert.alert(
+                    'Delete',
+                    '삭제하시겠습니까?',
+                    [
+                      {text: 'Cancel', style: 'cancel'},
+                      {text: 'OK', onPress: () => this.props.remove({})},
+                    ],
+                    { cancelable: true }
+                  )
+                }}
                 title={obj.title}
                 contents={obj.contents}
               />
@@ -59,10 +70,11 @@ class MainList extends React.Component {
           style={{ backgroundColor: '#5067FF' }}
           position="bottomRight"
           onPress={()=>{
-            this.props.insert({
-              title: 'title test',
-              contents: 'contents test'
-            })
+            // this.props.insert({
+            //   title: 'title test',
+            //   contents: 'contents test'
+            // })
+            this.props.navigation.navigate('AddMainComponent')
           }}>
           <Icon name="md-add" />
         </Fab>

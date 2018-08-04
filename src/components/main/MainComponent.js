@@ -21,7 +21,7 @@ class MainComponent extends Component {
   render() {
     return (
       <Card style={styles.mb}>
-        <TouchableOpacity onPress={this.props.clickAction}>
+        <TouchableOpacity onPress={this.props.clickAction} onLongPress={this.props.longClickAction}>
           <CardItem>
             <Left>
               <Body>
