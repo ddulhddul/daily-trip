@@ -62,25 +62,23 @@ class AddMainComponent extends React.Component {
           height: 100,
           padding: 20,
         }}>
-          <View style={[{flex:0.5},startDateStyle]}>
-            <Content>
-              <DatePicker
-                locale={"ko"}
-                formatChosenDate={(date)=>{
-                  return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('-')
-                }}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"spinner"}
-                placeHolderText="시작 날짜"
-                textStyle={{ color: "green", textAlign: "center" }}
-                placeHolderTextStyle={{ color: "#d3d3d3", textAlign: "center" }}
-                onDateChange={(date)=>this.setDate('startDate', date)}
-              />
-            </Content>
+          <View style={[{flex:0.5, margin:10},startDateStyle]}>
+            <DatePicker
+              locale={"ko"}
+              formatChosenDate={(date)=>{
+                return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('-')
+              }}
+              timeZoneOffsetInMinutes={undefined}
+              modalTransparent={false}
+              animationType={"fade"}
+              androidMode={"spinner"}
+              placeHolderText="시작 날짜"
+              textStyle={{ color: "green", textAlign: "center" }}
+              placeHolderTextStyle={{ color: "#d3d3d3", textAlign: "center" }}
+              onDateChange={(date)=>this.setDate('startDate', date)}
+            />
           </View>
-          <View style={[{flex:0.5},endDateStyle]}>
+          <View style={[{flex:0.5, margin:10},endDateStyle]}>
             <DatePicker
               style={styles.invalid}
               locale={"ko"}
