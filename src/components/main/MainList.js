@@ -57,13 +57,12 @@ class MainList extends React.Component {
                     '삭제하시겠습니까?',
                     [
                       {text: 'Cancel'},
-                      {text: 'OK', onPress: () => this.props.remove({})},
+                      {text: 'OK', onPress: () => this.props.remove({_id:obj._id})},
                     ],
                     { cancelable: true }
                   )
                 }}
-                title={obj.title}
-                contents={obj.contents}
+                obj={obj}
               />
             })
           }

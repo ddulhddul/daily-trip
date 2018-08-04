@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Picker } from 'react-native';
 import { DatePicker, Text, Button, Container, Content } from "native-base";
-import jsonData from './nation.json'
+import jsonData from '../data.json'
 
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -89,8 +89,9 @@ class AddMainComponent extends React.Component {
           <Button rounded success
             onPress={() => {
               this.props.insert({
-                title: this.state.nation,
-                contents: this.state.nation+'contents test'
+                nation: this.state.nation,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate
               })
               this.props.navigation.goBack()
             }}>

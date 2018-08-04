@@ -13,20 +13,34 @@ import {
   Body,
   Right
 } from "native-base";
+import jsonData from '../data.json'
 
 // const logo = require("../../../assets/logo.png");
 // const cardImage = require("../../../assets/drawer-cover.png");
 
 class MainComponent extends Component {
+
+  findNation(nationCode){
+    if(nationCode){
+      return jsonData.nation.find((obj)=>{
+        return obj.code == nationCode
+      })
+    }
+  }
+
   render() {
+    const {obj} = this.props
     return (
       <Card style={styles.mb}>
         <TouchableOpacity onPress={this.props.clickAction} onLongPress={this.props.longClickAction}>
           <CardItem>
             <Left>
               <Body>
-                <Text>{this.props.title}</Text>
-                <Text note>{this.props.contents}</Text>
+                <Text>{this.findNation(obj.nation).name} ({obj.nation})</Text>
+                <Text note>
+                  {obj.startDate.getFullYear()}-{obj.startDate.getMonth()+1}-{obj.startDate.getDate()} ~ 
+                  {obj.endDate.getFullYear()}-{obj.endDate.getMonth()+1}-{obj.endDate.getDate()}
+                </Text>
               </Body>
             </Left>
           </CardItem>
