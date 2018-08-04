@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Picker, StyleSheet } from 'react-native';
-import { DatePicker, Text, Button, Container, Content } from "native-base";
+import { View, Picker, StyleSheet, TextInput } from 'react-native';
+import { DatePicker, Text, Button } from "native-base";
 import jsonData from '../data.json'
 
 import {bindActionCreators} from 'redux';
@@ -12,6 +12,7 @@ class AddMainComponent extends React.Component {
   constructor(){
     super()
     this.state = {
+      title: undefined,
       nation: undefined,
       startDate: undefined,
       endDate: undefined,
@@ -27,7 +28,8 @@ class AddMainComponent extends React.Component {
   }
 
   render() {
-    const {saveTry, nation, startDate, endDate} = this.state
+    const {title, saveTry, nation, startDate, endDate} = this.state
+    const titleStyle = (!saveTry || title) ? undefined : styles.invalid
     const nationStyle = (!saveTry || nation) ? undefined : styles.invalid
     const startDateStyle = (!saveTry || startDate) ? undefined : styles.invalid
     let endDateStyle = (!saveTry || endDate) ? undefined : styles.invalid
@@ -36,6 +38,20 @@ class AddMainComponent extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 30, padding: 30 }}>여행 정보 입력</Text>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            height: 100,
+            padding: 20,
+          }}>
+          <TextInput 
+            style={[{width:'100%'},titleStyle]}
+            placeholder="Title"
+            onChangeText={(text) => this.setState({title:text})}
+          />
+        </View>
+
         <View
           style={{
             flexDirection: 'row',
@@ -101,24 +117,26 @@ class AddMainComponent extends React.Component {
           flexDirection: 'row',
           padding: 20,
         }}>
+          <Button rounded danger
+            onPress={() => this.props.navigation.goBack()}>
+            <Text>뒤로</Text>
+          </Button>
           <Button rounded success
             onPress={() => {
               this.setState({saveTry: true})
               if(saveTry && 
                 (!nationStyle && !startDateStyle && !endDateStyle)){
                 this.props.insert({
+                  title: this.state.title,
                   nation: this.state.nation,
                   startDate: this.state.startDate,
-                  endDate: this.state.endDate
+                  endDate: this.state.endDate,
+                  createdDate: new Date()
                 })
                 this.props.navigation.goBack()
               }
             }}>
             <Text>추가</Text>
-          </Button>
-          <Button rounded danger
-            onPress={() => this.props.navigation.goBack()}>
-            <Text>뒤로</Text>
           </Button>
         </View>
       </View>

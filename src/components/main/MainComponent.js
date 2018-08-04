@@ -36,8 +36,9 @@ class MainComponent extends Component {
           <CardItem>
             <Left>
               <Body>
-                <Text>{this.findNation(obj.nation).name} ({obj.nation})</Text>
+                <Text>{obj.title}</Text>
                 <Text note>
+                {this.findNation(obj.nation).name} ({obj.nation}) / 기간 : 
                   {obj.startDate.getFullYear()}-{obj.startDate.getMonth()+1}-{obj.startDate.getDate()} ~ 
                   {obj.endDate.getFullYear()}-{obj.endDate.getMonth()+1}-{obj.endDate.getDate()}
                 </Text>
