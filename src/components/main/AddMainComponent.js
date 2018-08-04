@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Picker } from 'react-native';
+import { View, Picker, StyleSheet } from 'react-native';
 import { DatePicker, Text, Button, Container, Content } from "native-base";
 import jsonData from '../data.json'
 
@@ -12,13 +12,27 @@ class AddMainComponent extends React.Component {
   constructor(){
     super()
     this.state = {
-      nation: '',
-      startDate: new Date(),
-      endDate: new Date()
+      nation: undefined,
+      startDate: undefined,
+      endDate: undefined,
+      saveTry: false
     }
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(dateNm,newDate) {
+    let stateObj = {}
+    stateObj[dateNm] = newDate
+    this.setState(stateObj);
   }
 
   render() {
+    const {saveTry, nation, startDate, endDate} = this.state
+    const nationStyle = (!saveTry || nation) ? undefined : styles.invalid
+    const startDateStyle = (!saveTry || startDate) ? undefined : styles.invalid
+    let endDateStyle = (!saveTry || endDate) ? undefined : styles.invalid
+    if(endDate && startDate && endDate.getTime() < startDate.getTime()) endDateStyle = styles.invalid
+    
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 30, padding: 30 }}>여행 정보 입력</Text>
@@ -28,7 +42,7 @@ class AddMainComponent extends React.Component {
             height: 100,
             padding: 20,
           }}>
-          <View style={{flex: 1}}>
+          <View style={[{flex: 1},nationStyle]}>
             <Picker
               selectedValue={this.state.nation}
               onValueChange={(itemValue, itemIndex) => this.setState({nation: itemValue})}>
@@ -48,24 +62,27 @@ class AddMainComponent extends React.Component {
           height: 100,
           padding: 20,
         }}>
-          <View style={{flex:0.5}}>
-            <DatePicker
-              locale={"ko"}
-              formatChosenDate={(date)=>{
-                return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('-')
-              }}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"spinner"}
-              placeHolderText="시작 날짜"
-              textStyle={{ color: "green", textAlign: "center" }}
-              placeHolderTextStyle={{ color: "#d3d3d3", textAlign: "center" }}
-              onDateChange={(date)=>this.setDate({startDate:date})}
-            />
+          <View style={[{flex:0.5},startDateStyle]}>
+            <Content>
+              <DatePicker
+                locale={"ko"}
+                formatChosenDate={(date)=>{
+                  return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('-')
+                }}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"spinner"}
+                placeHolderText="시작 날짜"
+                textStyle={{ color: "green", textAlign: "center" }}
+                placeHolderTextStyle={{ color: "#d3d3d3", textAlign: "center" }}
+                onDateChange={(date)=>this.setDate('startDate', date)}
+              />
+            </Content>
           </View>
-          <View style={{flex:0.5}}>
+          <View style={[{flex:0.5},endDateStyle]}>
             <DatePicker
+              style={styles.invalid}
               locale={"ko"}
               formatChosenDate={(date)=>{
                 return [date.getFullYear(),date.getMonth()+1,date.getDate()].join('-')
@@ -77,7 +94,7 @@ class AddMainComponent extends React.Component {
               placeHolderText="종료 날짜"
               textStyle={{ color: "green", textAlign: "center" }}
               placeHolderTextStyle={{ color: "#d3d3d3", textAlign: "center" }}
-              onDateChange={(date)=>this.setDate({endDate:date})}
+              onDateChange={(date)=>this.setDate('endDate', date)}
             />
           </View>
         </View>
@@ -88,12 +105,16 @@ class AddMainComponent extends React.Component {
         }}>
           <Button rounded success
             onPress={() => {
-              this.props.insert({
-                nation: this.state.nation,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
-              })
-              this.props.navigation.goBack()
+              this.setState({saveTry: true})
+              if(saveTry && 
+                (!nationStyle && !startDateStyle && !endDateStyle)){
+                this.props.insert({
+                  nation: this.state.nation,
+                  startDate: this.state.startDate,
+                  endDate: this.state.endDate
+                })
+                this.props.navigation.goBack()
+              }
             }}>
             <Text>추가</Text>
           </Button>
@@ -106,6 +127,14 @@ class AddMainComponent extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  invalid: {
+    borderColor: 'red',
+    borderWidth: 2,
+    borderStyle: 'solid'
+  }
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(Actions, dispatch);
